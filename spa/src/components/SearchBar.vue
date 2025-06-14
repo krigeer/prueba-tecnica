@@ -1,17 +1,29 @@
-<script>
+<script setup>
+import { ref, defineEmits } from "vue";
 
-export default {
-    name: 'SearchBar'
-}
+const searchQuery = ref("");
+const emit = defineEmits(["updateSearch"]);
+
+const updateSearch = () => {
+  emit("updateSearch", searchQuery.value);
+};
+
+
 </script>
 
 <template>
     <div class="busqueda" id="search">
-        <input type="text" placeholder="Buscar por nombre" >
+        <input  v-model="searchQuery"   @input="updateSearch" type="text" placeholder="Buscar por nombre" >
     </div>
 </template>
 
 
+
+<script>
+export default {
+    name: 'SearchBar'
+}
+</script>
 
 <style>
 .busqueda {

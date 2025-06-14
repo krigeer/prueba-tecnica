@@ -5,9 +5,7 @@
         <v-col cols="12" md="4">
           <div class="footer-section">
             <h2>Sobre Nosotros</h2>
-            <p>
-              Somos una plataforma dedicada a la gestión de inventarios tecnológicos, optimizando procesos y mejorando la eficiencia.
-            </p>
+            <p>Somos una plataforma dedicada a la gestión deUsuarios.</p>
           </div>
         </v-col>
 
@@ -36,11 +34,6 @@
         </v-col>
       </v-row>
     </v-container>
-
-
-    <div class="text-center footer-bottom pa-4">
-      © 2025 Todos los derechos reservados.
-    </div>
   </v-footer>
 </template>
 

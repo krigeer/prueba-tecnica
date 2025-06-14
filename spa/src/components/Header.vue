@@ -13,7 +13,6 @@ export default {
 
     <v-spacer>Lista de usuarios</v-spacer>
 
-    <!-- <v-btn text to="/">Inicio</v-btn> -->
     <v-btn text to="#search">Buscar</v-btn>
   </v-app-bar>
 </template>

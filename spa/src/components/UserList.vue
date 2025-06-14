@@ -1,9 +1,14 @@
 <script setup>
-import { ref, onMounted } from "vue";
-import { userData } from "../services/api"; // Ajusta la ruta según tu estructura
+import { ref, onMounted, computed } from "vue";
+import { userData } from "../services/api"; 
+import UserModal from '../components/UserModal.vue';
+import SearchBar from "../components/SearchBar.vue";
 
 const users = ref([]);
 const error = ref(null);
+const searchQuery = ref("");
+const dialog = ref(false);
+const selectedUser = ref(null);
 
 onMounted(async () => {
   try {
@@ -12,16 +17,40 @@ onMounted(async () => {
     error.value = err.message;
   }
 });
+
+const verMas = async (userId) => {
+    try {
+        const users = await userData();
+        selectedUser.value = users.find(user => user.id === userId);
+        dialog.value = true; 
+    } catch (error) {
+        console.error("Error al obtener el usuario:", error);
+    }
+};
+
+const closeModal = () => {
+    dialog.value = false;
+};
+
+const filteredUsers = computed(() => {
+  return users.value.filter(user =>
+    user.name.toLowerCase().includes(searchQuery.value.toLowerCase())
+  );
+});
+
+const updateSearch = (query) => {
+  searchQuery.value = query;
+};
 </script>
 
 <template>
+  <SearchBar @updateSearch="updateSearch" />
   <v-sheet class="d-flex align-center justify-center flex-wrap text-center mx-auto" elevation="3" height="70%"
     width="80%" rounded>
-
     <p v-if="error">Error: {{ error }}</p>
-
+    
     <v-infinite-scroll class="infinite-scroll-container" @load="load">
-      <template v-for="user in users" :key="user.id">
+      <template v-for="user in filteredUsers" :key="user.id">
         <div class="pa-2">
           <v-card class="pa-2" rounded="lg" elevation="2">
             <v-card-title class=" align-center text-h6">
@@ -43,6 +72,7 @@ onMounted(async () => {
         </div>
       </template>
     </v-infinite-scroll>
+    <UserModal :user="selectedUser" :dialog="dialog" :closeModal="closeModal" />
   </v-sheet>
 </template>
 
